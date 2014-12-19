@@ -1,7 +1,7 @@
 Minimal example
 ===============
 
-This is a minimal example showing the potentially broken compilation by karma-typescript-preprocessor.
+This is a minimal example showing the potentially broken compilation by karma-typescript-preprocessor, when compiling using the Asynchronouse Module Definition (AMD).
 
 Installing & Running
 --------------------
