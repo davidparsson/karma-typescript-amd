@@ -1,32 +1,55 @@
 module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-typescript');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('typescript-tpm');
 
   grunt.initConfig({
 
-    "typescript": {
-      options: {
-        module: "amd",
-        target: "es5",
-        basePath: ".",
-        sourceMap: true,
-        declaration: true
-      },
+    typescriptCompilerOptions: {
+      module: 'amd',
+      target: 'es5',
+      basePath: '.',
+      sourceMap: true,
+      declaration: true
+    },
+
+    typescript: {
+      options: '<%= typescriptCompilerOptions %>',
       unitTests: {
-        src: ["test/**/*.ts"],
-        dest: "build/"
+        src: ['test/**/*.ts'],
+        dest: 'build/'
       }
     },
 
-    "tpm-install": {
+    karma: {
+      options: {
+        configFile: 'karma.conf.js'
+      },
+      preCompiledTest: {
+        src: ['build/test/**/*.js']
+      },
+      test: {
+        src: ['test/**/*.ts'],
+        options: {
+          typescriptPreprocessor: {
+            options: '<%= typescriptCompilerOptions %>'
+          }
+        }
+      }
+    },
+
+    'tpm-install': {
+      options: {
+        dev: true
+      },
       all: {
-        src: "package.json",
-        dest: "typings/"
+        src: 'package.json',
+        dest: 'typings/'
       }
     }
 
   });
 
-  grunt.registerTask("default", ["tpm-install", "typescript"])
+  grunt.registerTask('default', ['tpm-install', 'typescript', 'karma:preCompiledTest', 'karma:test'])
 };
