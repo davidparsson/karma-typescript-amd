@@ -1,21 +1,25 @@
 module.exports = function(config){
   config.set({
-    files: ['test/**/*.ts'],
+    files: [
+      {pattern: 'src/**/*.ts', included: false},
+      {pattern: 'test/**/*.ts', included: false},
+      'test/main.js',
+    ],
     basePath: './',
     singleRun: true,
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'requirejs'],
     browsers: ['PhantomJS'],
 
     preprocessors: {
       '**/*.ts': ['typescript']
     },
 
-    plugins: [
-      'karma-phantomjs-launcher',
-      'karma-jasmine',
-      'karma-typescript-preprocessor'
-    ]
-
+    typescriptPreprocessor: {
+      options: {
+        module: 'amd',
+        target: 'es5',
+        sourceMap: 'inline'
+      }
+    }
   });
 };
-
